@@ -1,5 +1,5 @@
 const express = require("express");
-const Logger = require("./Logger");
+const Logger = require("./middleware/Logger");
 const agenciesRoute = require("./routes/agencies");
 const candidatesRoute = require("./routes/candindates");
 const homeRoute = require("./routes/home");
