@@ -38,6 +38,7 @@ beersRouter.get("/:id", (req, res) => {
             const schema = joi.object({
                 id : joi.number().integer().min(1)
             })
+            //Validating with synchronous validation function
             const reqParam = schema.validate({id : req.params.id})
 
             if(!reqParam.error){
@@ -58,6 +59,40 @@ beersRouter.get("/:id", (req, res) => {
         }
     })
 })
+
+
+//POST requests----------
+beersRouter.post("/", (req, res) => {
+    pool.getConnection( (err, connection) => {
+        if(err) res.status(504).send("An internal error occured when connecteint to the DataBase")
+        else{
+
+            //Validating the ressource
+            const schema = joi.object({
+                name : joi.string().min(1).max(45).required(),
+                tagline : joi.string().min(1).max(255).required(),
+                description : joi.string().min(1).max(255).required()
+            })
+
+            const newRessource = schema.validateAsync(req.body)
+            console.log(newRessource)
+            console.log(req.body)
+
+            //Adding the new ressource to the db
+            //connection.query()
+
+            //Sending the insert ID
+            res.send("")
+
+            //Releasing the connection Object
+            //connection.release()
+        }
+    })
+})
+
+
+
+
 
 
 module.exports = beersRouter;
